@@ -1,8 +1,9 @@
-import React from 'react'
-import { Card } from 'react-bootstrap'
+import React from 'react';
+import { Card } from 'react-bootstrap';
+import Raiting from './Raiting';
 
 function Product(props) {
-  const {product} = props
+  const { product } = props;
   return (
     <Card>
       <a href={`/product/${product._id}`}>
@@ -15,15 +16,15 @@ function Product(props) {
           </Card.Title>
         </a>
         <Card.Text as='div'>
-          <div className='my-3'>
-            {product.rating} from {product.numReviews} reviews
-          </div>
+          <Raiting
+            value={product.rating}
+            text={`${product.numReviews} reviews`}
+          />
         </Card.Text>
         <Card.Text as='h3'>${product.price}</Card.Text>
       </Card.Body>
-
     </Card>
   );
 }
 
-export default Product
+export default Product;
