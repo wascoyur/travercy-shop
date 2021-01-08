@@ -11,7 +11,7 @@ app.listen(5000, console.log('server up'))
  app.get('/api/products', (req, res) =>{
    res.json(products)
  })
- app.get('/api/products/:id', (req, res) =>{
+ app.get('/products/api/products/:id', (req, res) =>{
    const product = products.find((p) => p._id === req.params.id)
    res.json(product)
  })
