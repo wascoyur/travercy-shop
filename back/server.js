@@ -1,5 +1,6 @@
  const express = require('express');
  const products = require('../back/data/backend_products');
+ const dotenv = require('dotenv');
 
  const app =express();
 
