@@ -1,8 +1,7 @@
 const express = require('express');
 const products = require('../back/data/backend_products');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config({path:'../back/.env'});
 
-dotenv.config();
 
 const app = express();
 
