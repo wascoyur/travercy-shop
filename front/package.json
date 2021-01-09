@@ -19,12 +19,12 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "dev":"concurrently \"node ../back/server\" \"npm start\"",
+    "dev": "concurrently \"nodemon ../back/server\" \"npm start\"",
+    "server": "nodemon --watch ../back/ ../back/server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-
   },
   "eslintConfig": {
     "extends": [
