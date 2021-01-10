@@ -1,4 +1,9 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv'
+
+dotenv.config({ path: '../back/.env' });
+
+// console.log('dbjs-process.env.MONGO_URI', process.env.MONGO_URI);
 
 const connectDB = async()=>{
   try{
