@@ -1,15 +1,19 @@
 import express from'express';
 import products from '../back/data/backend_products.js';
 import dotenv from'dotenv';
+import connectDB from './cofig/db.js'
+import colors from 'colors'
 
 dotenv.config({path:'../back/.env'});
+
+connectDB();
 const app = express();
 
 const PORT = process.env.PORT || 5000 ;
 
 app.listen(
   PORT,
-  console.log(`server up in mode: ${process.env.NODE_ENV}  port: ${PORT}`)
+  console.log(`server up in mode: ${process.env.NODE_ENV}  port: ${PORT}`.yellow.bold)
 );
 
 app.get('/', (req, res) => {
