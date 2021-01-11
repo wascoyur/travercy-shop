@@ -15,7 +15,8 @@ router.get('/:id',
     if (product) {
       res.json(product)
     } else{
-      res.status(404).json({message: 'Товар не найден'})
+      res.status(404);
+      throw new Error('Товар не найден')
     }
   })
 );
