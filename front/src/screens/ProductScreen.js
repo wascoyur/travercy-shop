@@ -41,7 +41,7 @@ export const ProductScreen = ({ match }) => {
             </ListGroupItem>
             <ListGroupItem>
               <Rating
-                value={product.rating}
+                value={product.raiting}
                 text={`${product.numReviews} просмотров`}
               />
             </ListGroupItem>
