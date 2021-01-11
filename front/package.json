@@ -1,7 +1,7 @@
 {
   "name": "front",
   "version": "0.1.0",
-  "proxy":"http://127.0.0.1:5000",
+  "proxy": "http://127.0.0.1:5000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.8",
@@ -19,6 +19,10 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm start\"",
+    "server": "nodemon  --watch  ../back/ ../back/server.js",
+    "data:import":"node ../back/seeder.js",
+    "data:destroy":"node ../back/seeder -d",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -41,5 +45,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.7"
   }
 }
