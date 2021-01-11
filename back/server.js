@@ -1,8 +1,8 @@
 import express from'express';
-import products from '../back/data/backend_products.js';
 import dotenv from'dotenv';
 import connectDB from './cofig/db.js'
 import colors from 'colors'
+import productRoutes from './routes/productRouts.js'
 
 dotenv.config({path:'../back/.env'});
 
@@ -11,6 +11,8 @@ const app = express();
 
 const PORT = process.env.PORT || 5000 ;
 
+app.use('/api/products', productRoutes)
+
 app.listen(
   PORT,
   console.log(`server up in mode: ${process.env.NODE_ENV}  port: ${PORT}`.yellow.bold)
@@ -18,11 +20,4 @@ app.listen(
 
 app.get('/', (req, res) => {
   res.send('API запущен');
-});
-app.get('/api/products', (req, res) => {
-  res.json(products);
-});
-app.get('/products/api/products/:id', (req, res) => {
-  const product = products.find(p => p._id === req.params.id);
-  res.json(product);
 });

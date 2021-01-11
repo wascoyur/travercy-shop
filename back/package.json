@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "srvStart": "node server.js",
-    "seed":"node seeder.js"
+    "seed": "node seeder.js"
   },
   "author": "wascoyur",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "mongoose": "^5.11.11"
   }
 }
