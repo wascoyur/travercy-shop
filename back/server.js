@@ -1,17 +1,33 @@
- const express = require('express');
- const products = require('../back/data/backend_products');
+import express from'express';
+import dotenv from'dotenv';
+import connectDB from './cofig/db.js'
+import colors from 'colors'
+import productRoutes from './routes/productRouts.js'
+import {notFound, errorHandler} from './errorMiddleware/errorMidlleware.js'
 
- const app =express();
+dotenv.config({path:'../back/.env'});
 
-app.listen(5000, console.log('server up'))
+connectDB();
+const app = express();
 
- app.get('/', (req, res) =>{
-   res.send('API запущен')
- })
- app.get('/api/products', (req, res) =>{
-   res.json(products)
- })
- app.get('/api/products/:id', (req, res) =>{
-   const product = products.find((p) => p._id === req.params.id)
-   res.json(product)
- })
+const PORT = process.env.PORT || 5000 ;
+
+
+// app.use((req, res, next)=>{
+//   console.log('hi');
+//   next();
+// })
+app.use('/api/products', productRoutes);
+
+app.use(notFound)
+
+app.use(errorHandler)
+
+app.listen(
+  PORT,
+  console.log(`server up in mode: ${process.env.NODE_ENV}  port: ${PORT}`.yellow.bold)
+);
+
+app.get('/', (req, res) => {
+  res.send('API запущен');
+});

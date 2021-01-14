@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Card,
@@ -10,16 +10,29 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Rating from '../component/Raiting';
-import products from '../products';
+import { useDispatch, useSelector } from 'react-redux';
+import {listProductDetails} from '../actions/productActions'
+import Loader from '../component/Spinner';
+import Message from '../component/Message';
 
 export const ProductScreen = ({ match }) => {
-  const product = products.find(p => p._id === match.params.id);
+  const dispatch = useDispatch();
+  const productDetails = useSelector(state => state.productDetails);
+
+  const { loading, error, product } = productDetails;
+
+  useEffect(() => {
+    dispatch(listProductDetails(match.params.id))
+  },[dispatch, match] );
+
+
   return (
     <div>
       <Link className='btn btn-dark my-3' to='/'>
         Назад
       </Link>
-      <Row>
+      { loading ? <Loader /> : error ? <Message variant='danger'>{error}</Message > : (
+        <Row>
         <Col>
           <Image src={product.image} alt={product.name} fluid />
         </Col>
@@ -30,7 +43,7 @@ export const ProductScreen = ({ match }) => {
             </ListGroupItem>
             <ListGroupItem>
               <Rating
-                value={product.rating}
+                value={product.raiting}
                 text={`${product.numReviews} просмотров`}
               />
             </ListGroupItem>
@@ -65,7 +78,8 @@ export const ProductScreen = ({ match }) => {
             </ListGroup>
           </Card>
         </Col>
-      </Row>
+      </Row>)}
+
     </div>
   );
 };
