@@ -15,6 +15,7 @@ const reducer = combineReducers({
 const cartItemsFromStorage = localStorage.getItem('cardItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : [];
+
 const initialState = {cart: {cardItems:cartItemsFromStorage}};
 const middleware = [thunk];
 const store = createStore(
