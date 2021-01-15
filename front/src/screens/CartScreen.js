@@ -2,14 +2,25 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Message from '../component/Message';
-import {} from '../actions/cartActions'
+import { addToCart } from '../actions/cartActions';
 
 const CartScreen = ({ match, location, history }) => {
   const productId = match.params.id;
-  
+  const qty = location.search ? location.search.split('=')[1] : 1;
+  const dispatch = useDispatch();
+  const cart = useSelector(state => state.cart);
+  const { cartItems } = cart;
+  useEffect(() => {
+    if (productId) {
+      dispatch(addToCart(productId, qty));
+    }
+  }, [dispatch, productId, qty]);
+
   return (
     <div>
-      <h2>CartScreen</h2>
+      <h2>
+        Товар в корзине {productId} Количество:{qty}
+      </h2>
     </div>
   );
 };
