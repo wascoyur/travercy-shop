@@ -4,7 +4,20 @@ import asyncHandler from 'express-async-handler';
 
 const protect = asyncHandler(async (req, res, next) => {
   let token
-  console.log('req.he', req.headers.authorization);
-  next()
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    try {
+      token = req.headers.authorization.split(' ')[1]
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      console.log('token найден:', decoded);
+      next()
+    } catch (error) {
+
+    }
+  }
+  if (!token) {
+    res.status(401)
+    throw new Error('Не авторизован, токен не найден ')
+  }
 });
+
 export { protect };
