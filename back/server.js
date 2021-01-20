@@ -3,6 +3,7 @@ import dotenv from'dotenv';
 import connectDB from './cofig/db.js'
 import colors from 'colors'
 import productRoutes from './routes/productRouts.js'
+import userRoutes from './routes/userRout.js'
 import {notFound, errorHandler} from './errorMiddleware/errorMidlleware.js'
 
 dotenv.config({path:'../back/.env'});
@@ -13,11 +14,9 @@ const app = express();
 const PORT = process.env.PORT || 5000 ;
 
 
-// app.use((req, res, next)=>{
-//   console.log('hi');
-//   next();
-// })
+app.use(express.json())
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 app.use(notFound)
 
