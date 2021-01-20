@@ -21,8 +21,8 @@
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm start\"",
     "server": "nodemon  --watch  ../back/ ../back/server.js",
-    "data:import":"node ../back/seeder.js",
-    "data:destroy":"node ../back/seeder -d",
+    "data:import": "node ../back/seeder.js",
+    "data:destroy": "node ../back/seeder -d",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
