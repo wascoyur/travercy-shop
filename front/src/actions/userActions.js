@@ -1,14 +1,16 @@
 import {
   USER_LOGIN_FAIL,
   USER_LOGIN_REQUEST,
+  USER_LOGIN_SUCCESS,
 } from '../constants/userConstants';
 import axios from 'axios';
 
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
+
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -19,10 +21,12 @@ export const login = (email, password) => async dispatch => {
       { email, password },
       config
     );
+
     dispatch({
-      type: USER_LOGIN_REQUEST,
+      type: USER_LOGIN_SUCCESS,
       payload: data,
     });
+    
     localStorage.setItem('userInfo', JSON.stringify(data));
   } catch (error) {
     dispatch({
