@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Message from '../component/Message';
 import Loader from '../component/Spinner';
 
@@ -19,6 +19,9 @@ const ProfileScreen = ({location, history }) => {
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
+
+  const userUpdateProfile = useSelector(state => state.userUpdateProfile);
+  const { succsess } = userUpdateProfile;
 
 
   useEffect(() => {
@@ -39,7 +42,7 @@ const ProfileScreen = ({location, history }) => {
     if (password !== confirmPassword) {
       setMessage('Пароли не совпадают');
     } else {
-
+      dispatch(updateUserProfile({id: user._id, name, email, password}))
     }
   };
 
@@ -49,6 +52,7 @@ const ProfileScreen = ({location, history }) => {
         <h2>Профиль прользователя</h2>
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
+        {succsess && <Message variant='success'>Профиль обновлен</Message>}
         {loading && <Loader />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId='name'>
@@ -94,7 +98,9 @@ const ProfileScreen = ({location, history }) => {
           </Button>
         </Form>
       </Col>
-      <Col md={9}>Мои покупки</Col>
+      <Col md={9}>
+        <h2>Мои покупки</h2>
+      </Col>
     </Row>
   );
 };
