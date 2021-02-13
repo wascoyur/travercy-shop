@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CheckoutStep from '../component/CheckoutStep';
 import Message from '../component/Message';
-import  createOrder  from '../actions/orderActions';
+import  {createOrder}  from '../actions/orderActions';
 
 
 const PlaceOrderScreen = ({history}) => {
@@ -15,8 +15,9 @@ const PlaceOrderScreen = ({history}) => {
     (acc, item) => acc + item.price * item.qty,
     0
   );
+  cart.itemsPrice = +(cart.itemsPrice.toFixed(2));
   cart.shippingPrice = cart.itemsPrice > 100 ? 0 : 100;
-  cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice);
+  cart.totalPrice = +(Number(cart.itemsPrice) + Number(cart.shippingPrice)).toFixed(2);
 
   const orderCreate = useSelector(state => state.orderCreate)
   const { order, success, error } = orderCreate

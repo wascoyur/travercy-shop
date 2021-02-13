@@ -8,7 +8,7 @@ import {
 } from '../constants/orderConstatnts';
 import axios from 'axios';
 
-const createOrder = order => async (dispatch, getState) => {
+export const createOrder = order => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_CREATE_REQUEST,
@@ -41,7 +41,7 @@ const createOrder = order => async (dispatch, getState) => {
   }
 };
 
-const getOrderDetails = id => async (dispatch, getState) => {
+ export const getOrderDetails = id => async (dispatch, getState) => {
   try {
     dispatch({
       type: ORDER_DETAILS_REQUEST,
@@ -57,7 +57,7 @@ const getOrderDetails = id => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
-    const { data } = await axios.(`/api/orders/${id}`, config);
+    const { data } = await axios.get(`/api/orders/${id}`, config);
 
     dispatch({
       type: ORDER_DETAILS_SUCCSESS,
@@ -73,5 +73,3 @@ const getOrderDetails = id => async (dispatch, getState) => {
     });
   }
 };
-
-export default createOrder;
