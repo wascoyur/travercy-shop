@@ -44,12 +44,33 @@ const getOrderById = asyncHandler(async (req, res) => {
     'name email'
   );
   if (order) {
-  res.json(order);
-} else {
-  res.status(404);
-  throw new Error('Чек не найден');
-}
+    res.json(order);
+  } else {
+    res.status(404);
+    throw new Error('Чек не найден');
+  }
 });
 
+// @desc    update order to paid
+// @route   GET /api/orders/:id/pay
+// @access  Private
+const updateOrderToPaid = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+  if (order) {
+    order.isPaid = true;
+    order.isPaidAt = Date.now();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.payer.email_address,
+    };
+    const updateOrder = await order.save();
+    res.json(updateOrder);
+  } else {
+    res.status(404);
+    throw new Error('Чек не найден');
+  }
+});
 
-export { addOrderItems, getOrderById };
+export { addOrderItems, getOrderById, updateOrderToPaid };
