@@ -110,7 +110,7 @@ const ProfileScreen = ({ location, history }) => {
         ) : errorOrders ? (
           <Message variant='danger'>{errorOrders}</Message>
         ) : (
-          <Table stripped bordered hover responsive className='tamle-sm'>
+          <Table striped bordered hover responsive className='tamle-sm'>
             <thead>
               <tr>
                 <th>ID</th>
@@ -118,6 +118,7 @@ const ProfileScreen = ({ location, history }) => {
                 <th>Суммарно</th>
                 <th>Оплачено</th>
                 <th>Доставлено</th>
+                <th>Подробнее</th>
               </tr>
             </thead>
             <tbody>
@@ -141,9 +142,9 @@ const ProfileScreen = ({ location, history }) => {
                     )}
                   </td>
                   <td>
-                    <LinkContainer to={`/order/${order._id}`}>
-                      <Button variant='light'>Подробнее</Button>
-                    </LinkContainer>
+                    {/* <LinkContainer to={`/order/${order._id}`}></LinkContainer> */}
+                    <Button className='btn-sm' variant='light'>Открыть</Button>
+                    {`/order/${order._id}`}
                   </td>
                 </tr>
               ))}
