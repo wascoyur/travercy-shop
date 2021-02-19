@@ -74,7 +74,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-
 //@desc update User profile
 //@route PUT /api/users/profie
 //@access Private
@@ -83,10 +82,10 @@ const updatetUserProfile = asyncHandler(async (req, res) => {
   // console.log('user', req.user.name);
 
   if (user) {
-    user.name = req.body.name || user.name
-    user.email = req.body.email || user.email
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
     if (req.body.password) {
-      user.password = req.body.password
+      user.password = req.body.password;
     }
     const updateUser = await user.save();
     res.json({
@@ -107,7 +106,28 @@ const updatetUserProfile = asyncHandler(async (req, res) => {
 //@access Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({});
-  res.json(users)
+  res.json(users);
 });
 
-export { authUser, getUserProfile, registerUser, updatetUserProfile, getUsers };
+//@desc delete User
+//@route DELETE /api/users/:id
+//@access Private/Admin
+const deleteUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    await user.remove()
+    res.json({message: 'Пользователь удален'})
+  } else {
+    res.status(404);
+    throw new Error('Пользователь не найден')
+  }
+});
+
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updatetUserProfile,
+  getUsers,
+  deleteUser,
+};
