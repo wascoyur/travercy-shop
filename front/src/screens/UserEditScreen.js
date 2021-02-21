@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FormContainer } from "../component/FormContainer";
-import Message from "../component/Message";
+import { FormContainer } from '../component/FormContainer';
+import Message from '../component/Message';
 import { useDispatch, useSelector } from 'react-redux';
-import Loader from "../component/Spinner";
-import { getUserDetails } from "../actions/userActions";
-
+import Loader from '../component/Spinner';
+import { getUserDetails, updateUser } from '../actions/userActions';
+import { USER_UPDATE_RESET } from '../constants/userConstants';
 
 const UserListScreen = ({ match, history }) => {
-  const userId = match.params.id
+  const userId = match.params.id;
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -20,20 +20,31 @@ const UserListScreen = ({ match, history }) => {
   const userDetails = useSelector(state => state.userDetails);
   const { loading, error, user } = userDetails;
 
+  const userUpdate = useSelector(state => state.userUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    succsess: succsessUpdate,
+  } = userUpdate;
+
   useEffect(() => {
-    if (!user.name || user._id !== userId) {
-        dispatch(getUserDetails(userId))
+    if (succsessUpdate) {
+      dispatch({ type: USER_UPDATE_RESET });
+      history.push('/admin/userlist');
+    } else {
+      if (!user.name || user._id !== userId) {
+        dispatch(getUserDetails(userId));
       } else {
-        setName(user.name)
-        setEmail(user.email)
-        setIsAdmin(user.isAdmin)
+        setName(user.name);
+        setEmail(user.email);
+        setIsAdmin(user.isAdmin);
       }
     }
-  , [user, dispatch, userId]);
+  }, [user, dispatch, userId, succsessUpdate, history]);
 
   const submitHandler = e => {
     e.preventDefault();
-
+    dispatch(updateUser({ _id: userId, name: email, isAdmin }));
   };
 
   return (
@@ -43,6 +54,8 @@ const UserListScreen = ({ match, history }) => {
       </Link>
       <FormContainer>
         <h1>Редактировать данные пользователя</h1>
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
