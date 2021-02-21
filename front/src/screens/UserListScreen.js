@@ -25,7 +25,7 @@ const UserListScreen = ({ history }) => {
       history.push('/login')
     }
 
-  }, [dispatch, history, succsessDelete]);
+  }, [dispatch, history, succsessDelete, userInfo]);
 
   const deleteHandler = id => {
     if (window.confirm('Точно удалить?')) {
