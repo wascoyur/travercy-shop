@@ -4,31 +4,37 @@ import Loader from '../component/Spinner';
 import Message from '../component/Message';
 import { Button, Col, Row, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { listProducts } from '../actions/productActions';
+import { deleteProduct, listProducts } from '../actions/productActions';
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
+
   const productList = useSelector(state => state.productList);
   const { loading, error, products } = productList;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
+  
+  const productDelete = useSelector(state => state.productDelete);
+  const { loading: loadingDelete, error: errorDelete, success:successDelete } = productDelete;
 
-   useEffect(() => {
+
+
+  useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(listProducts());
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
   const deleteHandler = id => {
     if (window.confirm('Точно удалить?')) {
-      //dispatch(deleteProduct(id));
+      dispatch(deleteProduct(id));
     }
   };
 
-  const createProductHandler = (()=>{})
+  const createProductHandler = () => {};
 
   return (
     <div>
@@ -42,7 +48,8 @@ const ProductListScreen = ({ history, match }) => {
           </Button>
         </Col>
       </Row>
-
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -63,15 +70,9 @@ const ProductListScreen = ({ history, match }) => {
               <tr key={product._id}>
                 <td>{product._id}</td>
                 <td>{product.name}</td>
-                <td>
-                  ${product.price}
-                </td>
-                <td>
-                  {product.category}
-                </td>
-                <td>
-                  {product.brand}
-                </td>
+                <td>${product.price}</td>
+                <td>{product.category}</td>
+                <td>{product.brand}</td>
                 <td>
                   <LinkContainer to={`/admin/product/${product._id}/edit`}>
                     <Button variant='light' className='btn-sm'>
