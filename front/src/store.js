@@ -27,6 +27,7 @@ import {
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailsReducer,
+  
   cart: cartReducer,
   userLogin: userLoginReducer,
   userRegister: userRegisterReducer,

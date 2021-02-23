@@ -20,27 +20,30 @@ const ProductEditScreen = ({ match, history }) => {
 
   const dispatch = useDispatch();
 
-  const productDetails = useSelector(state => state.productDetails);
-  const { loading, error, product } = productDetails;
+  const productDetail = useSelector(state => state.productDetails);
+  const { loading, error, product } = productDetail;
 
   useEffect(() => {
-    if (!product.name || product._id !== productId) {
-        console.log('productId', productId);
-
-        //  dispatch(listProductDetails());
+    // if (successUpdate) {
+    //   dispatch({ type: PRODUCT_UPDATE_RESET });
+    //   history.push('/admin/productlist');
+    // } else {
+      if (!product.name || product._id !== productId) {
+        dispatch(listProductDetails(productId));
       } else {
-    //     setName(product.name);
-    //     setPrice(product.price);
-    //     setImage(product.image);
-    //     setBrand(product.brand);
-    //     setCategory(product.category);
-    //     setCountInStock(product.countInStock);
-    //     setDescription(product.description);
-      }
-  }, [dispatch, history, productId, product]);
+        setName(product.name);
+        setPrice(product.price);
+        setImage(product.image);
+        setBrand(product.brand);
+        setCategory(product.category);
+        setCountInStock(product.countInStock);
+        setDescription(product.description);
+      // }
+    }
+  }, [dispatch, history, productId,  product/**/]);
 
   const submitHandler = e => {
-    e.preventDefault();
+    // e.preventDefault();
     //dispatch(updateUser({ _id: userId, name: email, isAdmin }));
   };
 
