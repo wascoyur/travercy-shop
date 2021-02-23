@@ -5,6 +5,7 @@ import {
   productListReducer,
   productDetailsReducer,
   productDeleteReducer,
+  productCreateReducer,
 } from './reducers/productReducer';
 import { cartReducer } from './reducers/cartReducer';
 import {
@@ -38,7 +39,8 @@ const reducer = combineReducers({
   userList: userListReducer,
   deleteUser: userDeleteReducer,
   userUpdate: userUpdateReducer,
-  productDelete: productDeleteReducer
+  productDelete: productDeleteReducer,
+  productCreate: productCreateReducer
 });
 
 const cartItemsFromStorage = localStorage.getItem('shippingAddress')
