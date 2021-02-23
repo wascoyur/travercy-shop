@@ -16,7 +16,7 @@
       "program": "${workspaceFolder}\\front\\src\\screens\\HomeScreen.js"
     },
     {
-      "name": "Chrome",
+      "name": "React",
       "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000",
