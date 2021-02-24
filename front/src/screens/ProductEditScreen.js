@@ -1,4 +1,4 @@
-import { listProductDetails } from '../actions/productActions';
+import { listProductDetails, updateProduct } from '../actions/productActions';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,7 @@ import { FormContainer } from '../component/FormContainer';
 import Loader from '../component/Spinner';
 import Message from '../component/Message';
 import { Button, Form } from 'react-bootstrap';
+import { PRODUCT_UPDATE_RESET } from '../constants/productConstans';
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -23,11 +24,18 @@ const ProductEditScreen = ({ match, history }) => {
   const productDetail = useSelector(state => state.productDetails);
   const { loading, error, product } = productDetail;
 
+  const productUpdate = useSelector(state => state.productUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = productUpdate;
+
   useEffect(() => {
-    // if (successUpdate) {
-    //   dispatch({ type: PRODUCT_UPDATE_RESET });
-    //   history.push('/admin/productlist');
-    // } else {
+    if (successUpdate) {
+      dispatch({ type: PRODUCT_UPDATE_RESET });
+      history.push('/admin/productlist');
+    } else {
       if (!product.name || product._id !== productId) {
         dispatch(listProductDetails(productId));
       } else {
@@ -38,13 +46,25 @@ const ProductEditScreen = ({ match, history }) => {
         setCategory(product.category);
         setCountInStock(product.countInStock);
         setDescription(product.description);
-      // }
+        // }
+      }
     }
-  }, [dispatch, history, productId,  product/**/]);
+  }, [dispatch, history, productId, product, successUpdate /**/]);
 
   const submitHandler = e => {
-    // e.preventDefault();
-    //dispatch(updateUser({ _id: userId, name: email, isAdmin }));
+    e.preventDefault();
+    dispatch(
+      updateProduct({
+        _id: productId,
+        name,
+        price,
+        brand,
+        category,
+        description,
+        countInStock,
+        image
+      })
+    );
   };
 
   return (
@@ -54,7 +74,8 @@ const ProductEditScreen = ({ match, history }) => {
       </Link>
       <FormContainer>
         <h1>Редактировать данные товара</h1>
-
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -117,7 +138,7 @@ const ProductEditScreen = ({ match, history }) => {
                 type='number'
                 placeholder='Количество на складе'
                 value={countInStock}
-                onChange={e => setCountInStock(e.target.value)}
+                onChange={e => setCountInStock(Number(e.target.value))}
               ></Form.Control>
             </Form.Group>
 
