@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import { FormContainer } from '../component/FormContainer';
 import Loader from '../component/Spinner';
 import Message from '../component/Message';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, FormFile } from 'react-bootstrap';
 import { PRODUCT_UPDATE_RESET } from '../constants/productConstans';
+import axios from 'axios';
 
 const ProductEditScreen = ({ match, history }) => {
   const productId = match.params.id;
@@ -18,6 +19,7 @@ const ProductEditScreen = ({ match, history }) => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
+  const [uploading, setUploading] = useState('');
 
   const dispatch = useDispatch();
 
@@ -62,11 +64,30 @@ const ProductEditScreen = ({ match, history }) => {
         category,
         description,
         countInStock,
-        image
+        image,
       })
     );
   };
+  const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
+    const formData = new FormData()
+    formData.append('image', file)
+    setUploading(true)
 
+    try {
+      const config = {
+        headers:{'Content-Type':'multipart/form-data'}
+      }
+
+      const { data } = await axios.post(`/api/upload`, formData, config)
+      setImage(data)
+      setUploading(false)
+    } catch (error) {
+      console.log(error);
+      setUploading(false)
+
+    }
+  };
   return (
     <div>
       <Link to='/admin/productList' className='btn btn-light my-3'>
@@ -111,6 +132,13 @@ const ProductEditScreen = ({ match, history }) => {
                 onChange={e => setImage(e.target.value)}
               ></Form.Control>
             </Form.Group>
+            <FormFile
+              id='image-file'
+              label='Choose file'
+              custom
+              onChange={uploadFileHandler}
+                ></FormFile>
+                {uploading && <Loader/>}
 
             <Form.Group controlId='brand'>
               <Form.Label>Торговая марка товара</Form.Label>

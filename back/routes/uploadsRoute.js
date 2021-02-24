@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
   },
   filename(req, file, cb) {
     cb(
-      nll,
+      null,
       `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
     );
   },
@@ -35,7 +35,7 @@ const upload = multer({
 });
 
 router.post('/', upload.single('image'), (req, res) => {
-  res.send(`/${req.file.path}`)
+  res.send(`/${req.file.path}`);
 });
 
 export default router;
