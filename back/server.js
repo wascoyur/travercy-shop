@@ -8,12 +8,15 @@ import orderRoutes from './routes/orderRouts.js';
 import { notFound, errorHandler } from './errorMiddleware/errorMidlleware.js';
 import uploadRoutes from './routes/uploadsRoute.js'
 import path from 'path'
+import morgan from 'morgan'
 
 dotenv.config({ path: '../back/.env' });
 
 connectDB();
 const app = express();
-
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());

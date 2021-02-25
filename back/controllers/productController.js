@@ -89,8 +89,37 @@ const updateProduct = asyncHandler(async (req, res) => {
     res.status(404)
     throw new Error('Товар не найден')
   }
-
-
-
 })
-export { getProdacts, getProdactById, deleteProduct, updateProduct, createProduct };
+
+// @desc create new review
+// @route POST /api/products/:id/reviews
+// @access Private
+const createProductReview = asyncHandler(async (req, res) => {
+  const { raiting, comment} = req.body
+  const product = await Product.findById(req.params.id)
+
+  if (product) {
+    const alreadyReviewed = product.reviews.find(r => r.user.toString() === req.user._id.toString())
+    if (alreadyReviewed) {
+      res.status(400)
+      throw new Error ('Продукт уже оценен')
+    }
+    const review = {
+      name: req.user.name,
+      raiting: Number(raiting),
+      comment,
+      user: req.user._id
+    }
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length
+    product.raiting = product.reviews.reduce((acc, item) => item.raiting + acc, 0) / product.reviews.length
+    await product.save()
+    res.status(201).json({message: 'Обзор добавлен'})
+
+  } else {
+    res.status(404)
+    throw new Error('Товар не найден')
+  }
+})
+
+export { getProdacts, getProdactById, deleteProduct, updateProduct, createProduct, createProductReview };
