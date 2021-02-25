@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Loader from '../component/Spinner';
 import Message from '../component/Message';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
+import { deliverOrder, getOrderDetails, payOrder } from '../actions/orderActions';
 import axios from 'axios';
-import { ORDER_PAY_RESET } from '../constants/orderConstatnts';
+import { ORDER_DELIVER_RESET, ORDER_PAY_RESET } from '../constants/orderConstatnts';
 import { PayPalButton } from 'react-paypal-button-v2';
 
 const OrderScreen = ({ match, history }) => {
@@ -22,10 +22,8 @@ const OrderScreen = ({ match, history }) => {
   const orderPay = useSelector(state => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
 
-  // const orderDeliver = useSelector(state => state.orderDeliver);
-  // const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
-  const loadingDeliver = false
-  const successDeliver = true
+  const orderDeliver = useSelector(state => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector(state => state.userLogin);
   const { userInfo } = userLogin;
@@ -60,7 +58,7 @@ const OrderScreen = ({ match, history }) => {
 
     if (!order || successPay || successDeliver || order._id !== orderId) {
       dispatch({ type: ORDER_PAY_RESET });
-      //dispatch({ type: ORDER_DELIVER_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -69,7 +67,7 @@ const OrderScreen = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, successDeliver, order]);
+  }, [dispatch, orderId, successPay, successDeliver, order, history, userInfo]);
 
   const successPaymentHandler = paymentResult => {
     console.log(paymentResult);
@@ -77,7 +75,7 @@ const OrderScreen = ({ match, history }) => {
   };
 
   const deliverHandler = () => {
-    //dispatch(deliverOrder(order));
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -107,30 +105,30 @@ const OrderScreen = ({ match, history }) => {
               </p>
               {order.isDelivered ? (
                 <Message variant='success'>
-                  Delivered on {order.deliveredAt}
+                  Дата доставки {order.deliveredAt}
                 </Message>
               ) : (
-                <Message variant='danger'>Not Delivered</Message>
+                <Message variant='danger'>Не доставлено</Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment Method</h2>
+              <h2>Способ оплаты</h2>
               <p>
-                <strong>Method: </strong>
+                <strong>Оплата: </strong>
                 {order.paymentMethod}
               </p>
               {order.isPaid ? (
-                <Message variant='success'>Paid on {order.paidAt}</Message>
+                <Message variant='success'>Оплачено {order.paidAt}</Message>
               ) : (
-                <Message variant='danger'>Not Paid</Message>
+                <Message variant='danger'>Не оплачено</Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2>Содержимое</h2>
               {order.orderItems.length === 0 ? (
-                <Message>Order is empty</Message>
+                <Message>Чек пуст</Message>
               ) : (
                 <ListGroup variant='flush'>
                   {order.orderItems.map((item, index) => (
@@ -150,7 +148,7 @@ const OrderScreen = ({ match, history }) => {
                           </Link>
                         </Col>
                         <Col md={4}>
-                          {item.qty} x ${item.price} = ${item.qty * item.price}
+                          {item.qty} x ${item.price} = ${(item.qty* item.price).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -164,7 +162,7 @@ const OrderScreen = ({ match, history }) => {
           <Card>
             <ListGroup variant='flush'>
               <ListGroup.Item>
-                <h2>Order Summary</h2>
+                <h2>Итого</h2>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
@@ -174,19 +172,19 @@ const OrderScreen = ({ match, history }) => {
               </ListGroup.Item>
               <ListGroup.Item>
                 <Row>
-                  <Col>Shipping</Col>
+                  <Col>Доставка</Col>
                   <Col>${order.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
-              <ListGroup.Item>
+              {/* <ListGroup.Item>
                 <Row>
-                  <Col>Tax</Col>
+                  <Col>Налоги</Col>
                   <Col>${order.taxPrice}</Col>
                 </Row>
-              </ListGroup.Item>
+              </ListGroup.Item> */}
               <ListGroup.Item>
                 <Row>
-                  <Col>Total</Col>
+                  <Col>Сумма</Col>
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
@@ -206,7 +204,7 @@ const OrderScreen = ({ match, history }) => {
               {loadingDeliver && <Loader />}
               {userInfo &&
                 userInfo.isAdmin &&
-                order.isPaid &&
+                /* order.isPaid && */
                 !order.isDelivered && (
                   <ListGroup.Item>
                     <Button
@@ -214,7 +212,7 @@ const OrderScreen = ({ match, history }) => {
                       className='btn btn-block'
                       onClick={deliverHandler}
                     >
-                      Mark As Delivered
+                      Пометить как доставленное
                     </Button>
                   </ListGroup.Item>
                 )}
