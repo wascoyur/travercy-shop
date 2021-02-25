@@ -45,7 +45,7 @@ const products = [
     price: 399.99,
     countInStock: 11,
     rating: 5,
-    numReviews: 12,
+    numReviews: 4,
   },
   {
     name: 'Logitech G-Series Gaming Mouse',
@@ -69,7 +69,7 @@ const products = [
     price: 29.99,
     countInStock: 0,
     rating: 4,
-    numReviews: 12,
+    numReviews: 9,
   },
 ]
 

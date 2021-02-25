@@ -72,13 +72,13 @@ export const ProductScreen = ({ history, match }) => {
                   <Row>
                     <Col>Наличие:</Col>
                     <Col>
-                      {product.countinStock > 0
-                        ? `${product.countinStock} шт`
+                      {product.countInStock > 0
+                        ? `${product.countInStock} шт`
                         : 'отсутст  вует на складе'}
                     </Col>
                   </Row>
                 </ListGroupItem>
-                {product.countinStock > 0 && (
+                {product.countInStock > 0 && (
                   <ListGroupItem>
                     <Row>
                       <Col>Количество</Col>
@@ -88,7 +88,7 @@ export const ProductScreen = ({ history, match }) => {
                           value={qty}
                           onChange={e => setQty(e.target.value)}
                         >
-                          {[...Array(product.countinStock).keys()].map(x => (
+                          {[...Array(product.countInStock).keys()].map(x => (
                             <option key={x + 1} value={x + 1}>
                               {x + 1}
                             </option>
@@ -103,7 +103,7 @@ export const ProductScreen = ({ history, match }) => {
                     onClick={addToCartHandler}
                     className='btn-block'
                     type='button'
-                    disabled={product.countinStock <= 0}
+                    disabled={product.countInStock <= 0}
                   >
                     Добавить в корзину
                   </Button>
