@@ -17,10 +17,10 @@ const ProductListScreen = ({ history, match }) => {
   const { userInfo } = userLogin;
 
   const productCreate = useSelector(state => state.productCreate);
-  const { loading: loadingCreate, error: errorCreate, success: successCreate, product: createdProduct } = productCreate;
+  const { error: errorCreate, success: successCreate, product: createdProduct } = productCreate;
 
   const productDelete = useSelector(state => state.productDelete);
-  const { loading: loadingDelete, error: errorDelete, success:successDelete, product: DeletedProduct } = productDelete;
+  const { loading: loadingDelete, error: errorDelete, success:successDelete,  } = productDelete;
 
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET })

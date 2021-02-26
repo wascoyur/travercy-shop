@@ -44,7 +44,7 @@ export const ProductScreen = ({ history, match }) => {
 
   useEffect(() => {
     if (successProductReview) {
-      Alert('Отзыв отправлен');
+      alert('Отзыв отправлен');
       setRaiting(0);
       setComment('');
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET });
@@ -57,7 +57,12 @@ export const ProductScreen = ({ history, match }) => {
   };
   const submitHandler = e => {
     e.preventDefault();
-    dispatch(createProductReview(match.params.id));
+    dispatch(
+      createProductReview(match.params.id, {
+        raiting,
+        comment,
+      })
+    );
   };
   return (
     <div>
@@ -147,29 +152,29 @@ export const ProductScreen = ({ history, match }) => {
               <h2>Отзывы</h2>
               {product.reviews.length === 0 && <Message>Нет отзывов</Message>}
               <ListGroup variant='flush'>
-                {product.reviews.map(review => {
+                {product.reviews.map(review => (
                   <ListGroupItem key={review._id}>
                     test
                     <strong>{review.name}</strong>
                     <Rating value={review.raiting} />
                     <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>
-                  </ListGroupItem>;
-                })}
+                  </ListGroupItem>
+                ))}
                 <ListGroupItem>
                   <h2>Оставить отзыв</h2>
                   {errorReview && (
                     <Message variant='danger'>{errorReview}</Message>
                   )}
                   {userInfo ? (
-                    <Form onSumit={submitHandler}>
+                    <Form onSubmit={submitHandler}>
                       <FormGroup controlId='rating'>
                         Рейтинг
                         <FormControl
                           as='select'
                           value={raiting}
                           onChange={e => {
-                            setRaiting(e.target.value);
+                            setRaiting(Number(e.target.value));
                           }}
                         >
                           <option value=''>Оцените товар</option>

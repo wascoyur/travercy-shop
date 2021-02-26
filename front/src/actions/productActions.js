@@ -36,13 +36,13 @@ export const listProducts = () => async dispatch => {
   }
 };
 
-export const listProductDetails = id => async (dispatch) => {
+export const listProductDetails = id => async dispatch => {
   try {
     dispatch({ type: PRODUCT_DETALS_REQUEST });
     const { data } = await axios.get(`/api/products/${id}`);
     dispatch({
       type: PRODUCT_DETALS_SUCCESS,
-      payload: data
+      payload: data,
     });
   } catch (error) {
     dispatch({
@@ -111,7 +111,7 @@ export const createProduct = () => async (dispatch, getState) => {
   }
 };
 
-export const updateProduct = (product) => async (dispatch, getState) => {
+export const updateProduct = product => async (dispatch, getState) => {
   try {
     dispatch({ type: PRODUCT_UPDATE_REQUEST });
 
@@ -121,12 +121,16 @@ export const updateProduct = (product) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        'Content-Type':'application/json',
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
 
-    const { data } = await axios.put(`/api/products/${product._id}`, product, config);
+    const { data } = await axios.put(
+      `/api/products/${product._id}`,
+      product,
+      config
+    );
 
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
   } catch (error) {
@@ -159,8 +163,10 @@ export const createProductReview = (productId, review) => async (
         Authorization: `Bearer ${userInfo.token}`,
       },
     };
+    console.log('review-reducer', review);
 
     await axios.post(`/api/products/${productId}/reviews`, review, config);
+
 
     dispatch({
       type: PRODUCT_CREATE_REVIEW_SUCCESS,
@@ -170,9 +176,9 @@ export const createProductReview = (productId, review) => async (
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    // if (message === 'Not authorized, token failed') {
-    //   dispatch(logout());
-    // }
+    if (message === 'Not authorized, token failed') {
+      // dispatch(logout());
+    }
     dispatch({
       type: PRODUCT_CREATE_REVIEW_FAIL,
       payload: message,

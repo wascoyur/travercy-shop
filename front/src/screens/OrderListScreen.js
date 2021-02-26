@@ -22,11 +22,6 @@ const OrderListScreen = ({ history }) => {
     }
   }, [dispatch, userInfo, history]);
 
-  const deleteHandler = id => {
-    // if (window.confirm('Точно удалить?')) {
-    //   dispatch(deleteUser(id));
-    // }
-  };
 
   return (
     <div>

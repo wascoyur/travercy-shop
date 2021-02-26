@@ -5,7 +5,6 @@ import { listMyOrers } from '../actions/orderActions';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import Message from '../component/Message';
 import Loader from '../component/Spinner';
-import LinkContainer from 'react-router-bootstrap';
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('');
