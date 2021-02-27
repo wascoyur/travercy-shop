@@ -6,13 +6,14 @@ import Message from '../component/Message';
 import Loader from '../component/Spinner';
 import { listProducts } from '../actions/productActions';
 
-export const HomeScreen = () => {
+export const HomeScreen = ({match}) => {
   const dispatch = useDispatch();
   const productList = useSelector(state => state.productList);
+  const keyword = match.params.keyword
   const { loading, error, products } = productList;
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
   return (
     <div>
       <h3>Последние товары</h3>
