@@ -52,7 +52,7 @@ const App = () => {
       </Container>
       <Footer />
     </Router>
-  );
+  ); 
 };
 
 export default App;
