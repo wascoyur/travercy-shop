@@ -7,6 +7,9 @@ import Loader from '../component/Spinner';
 import { listProducts } from '../actions/productActions';
 import Paginate from './Paginate';
 import ProductCarousel from '../component/ProductCarousel';
+import Helmet from 'react-helmet';
+import Meta from '../component/Meta';
+import { Link } from 'react-router-dom';
 
 export const HomeScreen = ({ match }) => {
   const pageNumber = match.params.pageNumber || 1;
@@ -19,8 +22,9 @@ export const HomeScreen = ({ match }) => {
   }, [dispatch, keyword, pageNumber]);
   return (
     <div>
-      {!keyword && <ProductCarousel />}
-      
+      <Meta/>
+      {!keyword ? <ProductCarousel /> : <Link to='/' className='btn btn-light'>На главную</Link>}
+
       <h3>Последние товары</h3>
       {loading ? (
         <Loader />
