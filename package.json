@@ -1,12 +1,8 @@
 {
   "name": "front",
   "version": "0.1.0",
-  "proxy": "http://127.0.0.1:5000",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",
     "mdi-react": "^7.4.0",
@@ -27,18 +23,16 @@
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm start\"",
     "server": "nodemon  --watch  ../back/ ../back/server.js",
-    "data:import": "node ../back/seeder.js",
-    "data:destroy": "node ../back/seeder -d",
+    "data:import": "node ./back/seeder.js",
+    "data:destroy": "node ./back/seeder -d",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-build": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest"
+      "react-app"
     ]
   },
   "browserslist": {
