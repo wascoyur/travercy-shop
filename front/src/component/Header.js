@@ -24,7 +24,7 @@ const Header = () => {
       <Navbar bg='dark' expand='sm' variant='dark' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand>Shop-Test</Navbar.Brand>
+            <Navbar.Brand>wascoyur shop</Navbar.Brand>
           </LinkContainer>
 
           <Navbar.Toggle aria-controls='basic-navbar-nav' />

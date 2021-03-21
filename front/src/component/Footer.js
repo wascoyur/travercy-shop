@@ -10,6 +10,15 @@ function Footer() {
             Adapted by @wascoyur
           </Col>
         </Row>
+        <Row>
+          <Col>backend</Col>
+          <Col>Express, Atlas MongoDB</Col>
+        </Row>
+        
+        <Row>
+          <Col>frontend</Col>
+          <Col>React, Bootstrap, Redux </Col>
+        </Row>
       </Container>
 
     </footer>
