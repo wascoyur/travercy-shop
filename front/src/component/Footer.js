@@ -7,7 +7,7 @@ function Footer() {
       <Container>
         <Row>
           <Col className='text-center py-3'>
-            Powered by wascoyur
+            Adapted by @wascoyur
           </Col>
         </Row>
       </Container>
