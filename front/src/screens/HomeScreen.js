@@ -7,7 +7,6 @@ import Loader from '../component/Spinner';
 import { listProducts } from '../actions/productActions';
 import Paginate from './Paginate';
 import ProductCarousel from '../component/ProductCarousel';
-import Helmet from 'react-helmet';
 import Meta from '../component/Meta';
 import { Link } from 'react-router-dom';
 
