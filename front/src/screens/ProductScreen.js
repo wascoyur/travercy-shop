@@ -155,7 +155,6 @@ export const ProductScreen = ({ history, match }) => {
               <ListGroup variant='flush'>
                 {product.reviews.map(review => (
                   <ListGroupItem key={review._id}>
-                    test
                     <strong>{review.name}</strong>
                     <Rating value={review.raiting} />
                     <p>{review.createdAt.substring(0, 10)}</p>
