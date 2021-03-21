@@ -10,7 +10,7 @@ import uploadRoutes from './routes/uploadsRoute.js'
 import path from 'path'
 import morgan from 'morgan'
 
-dotenv.config({ path: '../back/.env' });
+dotenv.config({ path: './back/.env' });
 
 connectDB();
 const app = express();
@@ -31,7 +31,7 @@ const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/build')))
+  app.use(express.static(path.join(__dirname, '/front/build')))
   console.log('__dirname,', __dirname);
 
   app.get('*', (req,res) =>{res.sendFile(path.resolve(__dirname, 'front','build','index.html'))})
