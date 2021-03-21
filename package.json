@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "proxy": "http://127.0.0.1:5000",
   "private": true,
-  "engines": {
-    "node": "14.x"
-  },
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.8",
-    "@testing-library/react": "^11.2.2",
-    "@testing-library/user-event": "^12.6.0",
     "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.3",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
     "mdi-react": "^7.4.0",
+    "mongoose": "^5.11.11",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-dom": "^17.0.1",
@@ -29,14 +32,14 @@
   },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm start\"",
-    "server": "nodemon  --watch  ../back/ ../back/server.js",
-    "data:import": "node ../back/seeder.js",
-    "data:destroy": "node ../back/seeder -d",
-    "start": "react-scripts start",
+    "server": "nodemon  --watch  ./back/ ./back/server.js",
+    "data:import": "node ./back/seeder.js",
+    "data:destroy": "node ./back/seeder -d",
+    "start": "cd front && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "heroku-build":"NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
+    "heroku-build": "NPM_CONFIG_PRODUCTION=false npm install --prefix front && npm run build --prefix front"
   },
   "eslintConfig": {
     "extends": [
